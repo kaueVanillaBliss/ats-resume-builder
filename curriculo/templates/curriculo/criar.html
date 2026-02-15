@@ -1,0 +1,9 @@
+<!DOCTYPE html>
+<html>
+<body>
+    <h1>Criar Novo Currículo</h1>
+    <form method="post">
+        {% csrf_token %} {{ form.as_p }} <button type="submit">Salvar Currículo</button>
+    </form>
+</body>
+</html>
