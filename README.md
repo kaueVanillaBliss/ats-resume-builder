@@ -1,4 +1,4 @@
-📄 ATS Resume Builder
+## ATS Resume Builder
 
 **[PT-BR]**
 Um sistema desenvolvido em **Python** e **Django** focado na criação de currículos otimizados para **Sistemas de Rastreamento de Candidatos (ATS)**. 
@@ -22,7 +22,7 @@ The goal is to solve the issue of resumes being rejected due to poor formatting,
 * **PDF Generation:** HTML template conversion to binary PDF files (using WeasyPrint).
 * **Standardization:** Interface that enforces structured data entry.
 
-## 🛠 Tech Stack
+##  Tech Stack
 * Python 3.x
 * Django 5.x
 * SQLite / PostgreSQL
