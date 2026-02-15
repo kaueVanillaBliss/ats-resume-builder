@@ -1,8 +1,157 @@
 <!DOCTYPE html>
-<html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sucesso! | Kaue Siqueira</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --primary-color: #2563EB;
+            --primary-hover: #1d4ed8;
+            --bg-color: #F3F4F6;
+            --text-dark: #111827;
+            --text-gray: #6B7280;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-color);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            color: var(--text-dark);
+        }
+
+        .success-card {
+            background: white;
+            padding: 48px;
+            border-radius: 16px;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            text-align: center;
+            max-width: 480px;
+            width: 90%;
+            border: 1px solid #E5E7EB;
+            animation: slideUp 0.5s ease-out;
+        }
+
+        @keyframes slideUp {
+            from { transform: translateY(20px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        .icon-wrapper {
+            background-color: #DEF7EC;
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 24px auto;
+        }
+
+        .icon-wrapper i {
+            color: #03543F;
+            font-size: 36px;
+            animation: popIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) 0.3s backwards;
+        }
+
+        @keyframes popIn {
+            from { transform: scale(0); }
+            to { transform: scale(1); }
+        }
+
+        h1 {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 12px;
+            color: var(--text-dark);
+        }
+
+        p {
+            color: var(--text-gray);
+            margin-bottom: 32px;
+            line-height: 1.6;
+        }
+
+        .btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            padding: 14px 20px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 16px;
+            transition: all 0.2s;
+            margin-bottom: 12px;
+            cursor: pointer;
+        }
+
+        .btn i { margin-right: 8px; }
+
+        .btn-primary {
+            background-color: var(--primary-color);
+            color: white;
+            box-shadow: 0 4px 6px -1px rgba(37, 99, 235, 0.2);
+            border: none;
+        }
+        .btn-primary:hover {
+            background-color: var(--primary-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 8px -1px rgba(37, 99, 235, 0.3);
+        }
+
+        .btn-secondary {
+            background-color: white;
+            color: #374151;
+            border: 1px solid #D1D5DB;
+        }
+        .btn-secondary:hover {
+            background-color: #F9FAFB;
+            border-color: #9CA3AF;
+        }
+
+        .footer-mini {
+            margin-top: 32px;
+            font-size: 12px;
+            color: #9CA3AF;
+            border-top: 1px solid #E5E7EB;
+            padding-top: 20px;
+        }
+    </style>
+</head>
 <body>
-    <h1>Sucesso! 🎉</h1>
-    <p>Os dados foram salvos no banco de dados.</p>
-    <a href="/">Voltar</a>
+
+    <div class="success-card">
+        <div class="icon-wrapper">
+            <i class="fas fa-check"></i>
+        </div>
+        
+        <h1>Currículo Gerado com Sucesso!</h1>
+        <p>
+            Tudo pronto, <strong>{{ curriculo.nome_completo }}</strong>! <br>
+            Seu documento foi processado e formatado no padrão ATS.
+        </p>
+
+        <a href="{% url 'gerar_pdf' curriculo.id %}" class="btn btn-primary">
+            <i class="fas fa-file-download"></i> Baixar PDF Agora
+        </a>
+
+        <a href="{% url 'criar_curriculo' %}" class="btn btn-secondary">
+            <i class="fas fa-plus"></i> Criar Novo Currículo
+        </a>
+
+        <div class="footer-mini">
+            Design & Desenvolvimento por <strong>Kaue Siqueira</strong>
+        </div>
+    </div>
+
 </body>
 </html>

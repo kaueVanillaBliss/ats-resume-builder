@@ -1,9 +1,407 @@
 <!DOCTYPE html>
-<html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gerador de Currículo | Kaue Siqueira</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+    <style>
+        /* --- VARIÁVEIS E RESET --- */
+        :root {
+            --primary-color: #2563EB;
+            --primary-hover: #1d4ed8;
+            --bg-color: #F3F4F6;
+            --card-bg: #FFFFFF;
+            --border-color: #E5E7EB;
+            --text-dark: #111827;
+            --text-gray: #6B7280;
+            --error-bg: #FEE2E2;
+            --error-text: #991B1B;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body { 
+            font-family: 'Inter', sans-serif; 
+            background-color: var(--bg-color); 
+            color: var(--text-dark); 
+            line-height: 1.5; 
+            padding-bottom: 80px; 
+        }
+
+        /* --- HEADER --- */
+        header { 
+            background-color: var(--card-bg); 
+            border-bottom: 1px solid var(--border-color); 
+            padding: 24px 0; 
+            margin-bottom: 40px; 
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05); 
+        }
+        
+        .container { max-width: 900px; margin: 0 auto; padding: 0 20px; }
+        .header-content { display: flex; align-items: center; gap: 16px; }
+        .logo-icon { font-size: 32px; color: var(--primary-color); }
+        header h1 { font-size: 24px; font-weight: 700; letter-spacing: -0.5px; }
+        header p { color: var(--text-gray); font-size: 14px; margin-top: 4px; }
+
+        /* --- CARDS E SEÇÕES --- */
+        .card { 
+            background: var(--card-bg); 
+            border-radius: 12px; 
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); 
+            padding: 32px; 
+            margin-bottom: 24px; 
+            border: 1px solid var(--border-color); 
+        }
+
+        .section-title { 
+            font-size: 18px; 
+            font-weight: 600; 
+            margin-bottom: 24px; 
+            padding-bottom: 12px; 
+            border-bottom: 2px solid var(--bg-color); 
+            display: flex; 
+            align-items: center; 
+            gap: 10px; 
+            color: var(--text-dark);
+        }
+        .section-title i { color: var(--primary-color); }
+
+        /* --- FORM GRID --- */
+        .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+        .full-width { grid-column: span 2; }
+        .form-group { margin-bottom: 16px; }
+
+        label { 
+            display: block; 
+            font-size: 14px; 
+            font-weight: 500; 
+            color: #374151; 
+            margin-bottom: 6px; 
+        }
+
+        input[type="text"], input[type="email"], input[type="url"], input[type="date"], select, textarea, input[type="number"] { 
+            width: 100%; 
+            padding: 10px 14px; 
+            border: 1px solid var(--border-color); 
+            border-radius: 8px; 
+            font-size: 15px; 
+            font-family: 'Inter', sans-serif; 
+            color: var(--text-dark);
+            background-color: #fff;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+
+        input:focus, select:focus, textarea:focus { 
+            outline: none; 
+            border-color: var(--primary-color); 
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1); 
+        }
+
+        textarea { resize: vertical; min-height: 100px; }
+
+        /* --- ALERTAS DE ERRO --- */
+        .error-alert { 
+            background-color: var(--error-bg); 
+            border: 1px solid #F87171; 
+            color: var(--error-text); 
+            padding: 16px; 
+            border-radius: 8px; 
+            margin-bottom: 24px; 
+            animation: slideDown 0.3s ease-out;
+        }
+        @keyframes slideDown { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
+        
+        .error-list { list-style: inside square; font-size: 14px; margin-left: 10px; margin-top: 8px; }
+
+        /* --- ITENS DINÂMICOS (FORMSETS) --- */
+        .formset-item { 
+            background-color: #F9FAFB; 
+            border: 1px solid var(--border-color); 
+            padding: 24px; 
+            border-radius: 8px; 
+            margin-bottom: 20px; 
+            position: relative; 
+            animation: fadeIn 0.3s ease-in-out; 
+        }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
+
+        .delete-check { 
+            float: right; 
+            font-size: 13px; 
+            color: #EF4444; 
+            font-weight: 600; 
+            cursor: pointer; 
+            display: flex; 
+            align-items: center; 
+            gap: 6px;
+        }
+
+        /* --- BOTÕES --- */
+        .btn-add { 
+            background-color: transparent; 
+            border: 2px dashed #D1D5DB; 
+            color: #6B7280; 
+            width: 100%; 
+            padding: 12px; 
+            border-radius: 8px; 
+            font-weight: 600; 
+            cursor: pointer; 
+            transition: all 0.2s; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            gap: 8px; 
+        }
+        .btn-add:hover { 
+            border-color: var(--primary-color); 
+            color: var(--primary-color); 
+            background-color: #EFF6FF; 
+        }
+
+        button[type="submit"] { 
+            background-color: var(--primary-color); 
+            color: white; 
+            font-weight: 600; 
+            padding: 16px 32px; 
+            border: none; 
+            border-radius: 8px; 
+            font-size: 16px; 
+            cursor: pointer; 
+            width: 100%; 
+            margin-top: 10px; 
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
+            transition: background-color 0.2s;
+        }
+        button[type="submit"]:hover { background-color: var(--primary-hover); }
+
+        .footer-credits { 
+            text-align: center; 
+            margin-top: 40px; 
+            color: #9CA3AF; 
+            font-size: 13px; 
+            border-top: 1px solid var(--border-color); 
+            padding-top: 24px; 
+        }
+    </style>
+</head>
 <body>
-    <h1>Criar Novo Currículo</h1>
-    <form method="post">
-        {% csrf_token %} {{ form.as_p }} <button type="submit">Salvar Currículo</button>
-    </form>
+
+    <header>
+        <div class="container header-content">
+            <i class="fas fa-file-invoice logo-icon"></i>
+            <div>
+                <h1>Gerador de Currículo ATS</h1>
+                <p>Otimizado para sistemas de recrutamento e seleção.</p>
+            </div>
+        </div>
+    </header>
+
+    <main class="container">
+        
+        {% if form.errors or f_exp.errors or f_form.errors %}
+        <div class="error-alert">
+            <h3><i class="fas fa-exclamation-triangle"></i> Ops! Encontramos alguns problemas:</h3>
+            <ul class="error-list">
+                {% if form.errors %}
+                    <li><strong>Dados Gerais:</strong> Verifique os campos obrigatórios (Título, Nome, Email).</li>
+                {% endif %}
+                
+                {% for form_erro in f_exp.errors %}
+                    {% for campo, lista_erros in form_erro.items %}
+                        <li><strong>Experiência:</strong> O campo '{{ campo }}' {{ lista_erros|join:", " }}</li>
+                    {% endfor %}
+                {% endfor %}
+
+                {% for form_erro in f_form.errors %}
+                    {% for campo, lista_erros in form_erro.items %}
+                        <li><strong>Formação:</strong> O campo '{{ campo }}' {{ lista_erros|join:", " }}</li>
+                    {% endfor %}
+                {% endfor %}
+            </ul>
+        </div>
+        {% endif %}
+
+        <form method="post" novalidate>
+            {% csrf_token %}
+
+            <div class="card">
+                <div class="section-title"><i class="fas fa-user-circle"></i> Informações Pessoais</div>
+                
+                <div class="form-grid">
+                    <div class="form-group full-width">
+                        <label style="color: var(--primary-color);">Nome do Perfil / Título do Currículo *</label>
+                        {{ form.titulo }} <small style="font-size: 12px; color: #6B7280;">Ex: Desenvolvedor Python Pleno, Analista Administrativo</small>
+                    </div>
+
+                    <div class="form-group"><label>Nome Completo *</label>{{ form.nome_completo }}</div>
+                    <div class="form-group"><label>E-mail *</label>{{ form.email }}</div>
+                    <div class="form-group"><label>Telefone</label>{{ form.telefone }}</div>
+                    <div class="form-group form-grid" style="grid-template-columns: 2fr 1fr; gap: 10px; margin-bottom: 0;">
+                        <div><label>Cidade</label>{{ form.cidade }}</div>
+                        <div><label>UF</label>{{ form.estado }}</div>
+                    </div>
+                    <div class="form-group"><label>LinkedIn (URL)</label>{{ form.linkedin_url }}</div>
+                    <div class="form-group"><label>GitHub / Portfólio (URL)</label>{{ form.github_url }}</div>
+                    <div class="form-group full-width"><label>Resumo Profissional</label>{{ form.resumo_profissional }}</div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="section-title"><i class="fas fa-briefcase"></i> Experiência Profissional</div>
+                {{ f_exp.management_form }}
+                <div id="experiencia-container">
+                    {% for form in f_exp %}
+                    <div class="formset-item">
+                        <div class="form-grid">
+                            <div class="full-width delete-check">
+                                <label>Não adicionar / Ignorar {{ form.DELETE }}</label>
+                            </div>
+                            <div class="form-group"><label>Cargo</label>{{ form.cargo }}</div>
+                            <div class="form-group"><label>Empresa</label>{{ form.empresa }}</div>
+                            <div class="form-group"><label>Início</label>{{ form.data_inicio }}</div>
+                            <div class="form-group"><label>Fim</label>{{ form.data_fim }}</div>
+                            <div class="form-group full-width"><label>Descrição das Atividades</label>{{ form.descricao }}</div>
+                        </div>
+                        {% for hidden in form.hidden_fields %}{{ hidden }}{% endfor %}
+                    </div>
+                    {% endfor %}
+                </div>
+                <button type="button" class="btn-add" onclick="addForm('experiencia')"><i class="fas fa-plus"></i> Adicionar Experiência</button>
+            </div>
+
+            <div class="card">
+                <div class="section-title"><i class="fas fa-graduation-cap"></i> Formação Acadêmica</div>
+                {{ f_form.management_form }}
+                <div id="formacao-container">
+                    {% for form in f_form %}
+                    <div class="formset-item">
+                        <div class="form-grid">
+                            <div class="full-width delete-check"><label>Remover {{ form.DELETE }}</label></div>
+                            <div class="form-group"><label>Instituição</label>{{ form.instituicao }}</div>
+                            <div class="form-group"><label>Curso</label>{{ form.curso }}</div>
+                            <div class="form-group"><label>Nível</label>{{ form.nivel_de_escolaridade }}</div>
+                            <div class="form-group form-grid" style="gap:10px;">
+                                <div><label>Início</label>{{ form.data_inicio }}</div>
+                                <div><label>Fim</label>{{ form.data_fim }}</div>
+                            </div>
+                        </div>
+                        {% for hidden in form.hidden_fields %}{{ hidden }}{% endfor %}
+                    </div>
+                    {% endfor %}
+                </div>
+                <button type="button" class="btn-add" onclick="addForm('formacao')"><i class="fas fa-plus"></i> Adicionar Formação</button>
+            </div>
+
+            <div class="card">
+                <div class="section-title"><i class="fas fa-tools"></i> Habilidades Técnicas</div>
+                {{ f_hab.management_form }}
+                <div id="habilidade-container" class="form-grid">
+                    {% for form in f_hab %}
+                    <div class="formset-item" style="margin-bottom:0;">
+                        <div class="delete-check">{{ form.DELETE }}</div>
+                        <div class="form-group"><label>Habilidade (Ex: Python)</label>{{ form.nome_tecnico }}</div>
+                        <div class="form-group"><label>Nível</label>{{ form.nivel }}</div>
+                        {% for hidden in form.hidden_fields %}{{ hidden }}{% endfor %}
+                    </div>
+                    {% endfor %}
+                </div>
+                <button type="button" class="btn-add" style="margin-top:20px;" onclick="addForm('habilidade')"><i class="fas fa-plus"></i> Adicionar Habilidade</button>
+            </div>
+
+            <div class="card">
+                <div class="section-title"><i class="fas fa-language"></i> Idiomas</div>
+                {{ f_idi.management_form }}
+                <div id="idioma-container" class="form-grid">
+                    {% for form in f_idi %}
+                    <div class="formset-item" style="margin-bottom:0;">
+                        <div class="delete-check">{{ form.DELETE }}</div>
+                        <div class="form-group"><label>Idioma</label>{{ form.nome }}</div>
+                        <div class="form-group"><label>Nível</label>{{ form.nivel }}</div>
+                        {% for hidden in form.hidden_fields %}{{ hidden }}{% endfor %}
+                    </div>
+                    {% endfor %}
+                </div>
+                <button type="button" class="btn-add" style="margin-top:20px;" onclick="addForm('idioma')"><i class="fas fa-plus"></i> Adicionar Idioma</button>
+            </div>
+
+            <div class="card">
+                <div class="section-title"><i class="fas fa-certificate"></i> Certificações</div>
+                {{ f_cert.management_form }}
+                <div id="certificado-container">
+                    {% for form in f_cert %}
+                    <div class="formset-item">
+                        <div class="form-grid">
+                            <div class="full-width delete-check"><label>Remover {{ form.DELETE }}</label></div>
+                            <div class="form-group"><label>Nome do Curso/Certificado</label>{{ form.nome }}</div>
+                            <div class="form-group"><label>Emissor (Ex: Alura, Udemy)</label>{{ form.organizacao_emissora }}</div>
+                            <div class="form-group"><label>Data Emissão</label>{{ form.data_emissao }}</div>
+                            <div class="form-group"><label>Link de Validação</label>{{ form.link_validacao }}</div>
+                        </div>
+                        {% for hidden in form.hidden_fields %}{{ hidden }}{% endfor %}
+                    </div>
+                    {% endfor %}
+                </div>
+                <button type="button" class="btn-add" onclick="addForm('certificado')"><i class="fas fa-plus"></i> Adicionar Certificado</button>
+            </div>
+
+            <button type="submit"><i class="fas fa-save"></i> Salvar e Gerar Currículo</button>
+            
+            <div class="footer-credits">
+                Design & Desenvolvimento por <strong>Kaue Siqueira</strong> © 2026
+            </div>
+        </form>
+
+        <div id="experiencia-empty" style="display:none">
+            <div class="formset-item"><div class="form-grid"><div class="full-width delete-check"><label>Remover <input type="checkbox" name="experiencia-__prefix__-DELETE" id="id_experiencia-__prefix__-DELETE"></label></div><div class="form-group"><label>Cargo</label>{{ f_exp.empty_form.cargo }}</div><div class="form-group"><label>Empresa</label>{{ f_exp.empty_form.empresa }}</div><div class="form-group"><label>Início</label>{{ f_exp.empty_form.data_inicio }}</div><div class="form-group"><label>Fim</label>{{ f_exp.empty_form.data_fim }}</div><div class="form-group full-width"><label>Descrição</label>{{ f_exp.empty_form.descricao }}</div></div></div>
+        </div>
+
+        <div id="formacao-empty" style="display:none">
+            <div class="formset-item"><div class="form-grid"><div class="full-width delete-check"><label>Remover <input type="checkbox" name="formacao-__prefix__-DELETE"></label></div><div class="form-group"><label>Instituição</label>{{ f_form.empty_form.instituicao }}</div><div class="form-group"><label>Curso</label>{{ f_form.empty_form.curso }}</div><div class="form-group"><label>Nível</label>{{ f_form.empty_form.nivel_de_escolaridade }}</div><div class="form-group form-grid" style="gap:10px;"><div><label>Início</label>{{ f_form.empty_form.data_inicio }}</div><div><label>Fim</label>{{ f_form.empty_form.data_fim }}</div></div></div></div>
+        </div>
+
+        <div id="habilidade-empty" style="display:none">
+            <div class="formset-item" style="margin-bottom:0;"><div class="delete-check"><input type="checkbox" name="habilidade-__prefix__-DELETE"></div><div class="form-group"><label>Habilidade</label>{{ f_hab.empty_form.nome_tecnico }}</div><div class="form-group"><label>Nível</label>{{ f_hab.empty_form.nivel }}</div></div>
+        </div>
+
+        <div id="idioma-empty" style="display:none">
+            <div class="formset-item" style="margin-bottom:0;"><div class="delete-check"><input type="checkbox" name="idioma-__prefix__-DELETE"></div><div class="form-group"><label>Idioma</label>{{ f_idi.empty_form.nome }}</div><div class="form-group"><label>Nível</label>{{ f_idi.empty_form.nivel }}</div></div>
+        </div>
+
+        <div id="certificado-empty" style="display:none">
+            <div class="formset-item"><div class="form-grid"><div class="full-width delete-check"><label>Remover <input type="checkbox" name="certificado-__prefix__-DELETE"></label></div><div class="form-group"><label>Nome</label>{{ f_cert.empty_form.nome }}</div><div class="form-group"><label>Emissor</label>{{ f_cert.empty_form.organizacao_emissora }}</div><div class="form-group"><label>Data</label>{{ f_cert.empty_form.data_emissao }}</div><div class="form-group"><label>Link</label>{{ f_cert.empty_form.link_validacao }}</div></div></div>
+        </div>
+
+    </main>
+
+    <script>
+        function addForm(prefix) {
+            // Pega o input hidden que conta quantos formulários existem (gerenciado pelo Django)
+            let totalForms = document.getElementById(`id_${prefix}-TOTAL_FORMS`);
+            let count = parseInt(totalForms.value);
+
+            // Pega o HTML do template vazio
+            let emptyForm = document.getElementById(`${prefix}-empty`).innerHTML;
+
+            // Substitui o placeholder '__prefix__' pelo número atual (ex: 0, 1, 2)
+            // Isso garante que o Django entenda que é um novo item
+            let newFormHtml = emptyForm.replace(/__prefix__/g, count);
+
+            // Adiciona o HTML novo na tela
+            let container = document.getElementById(`${prefix}-container`);
+            let div = document.createElement('div');
+            div.innerHTML = newFormHtml;
+            
+            // Remove a div wrapper extra se necessário para manter o grid alinhado
+            while (div.firstChild) {
+                container.appendChild(div.firstChild);
+            }
+
+            // Atualiza o contador total
+            totalForms.value = count + 1;
+        }
+    </script>
 </body>
 </html>
